@@ -1,0 +1,17 @@
+version: '3'
+services:
+  locust-master:
+    image: ${BASE_IMAGE_FULL}
+    environment:
+      LOCUST_WEB_PORT: ${LOCUST_DOCKER_COMPOSE_WEB_PORT}
+    ports:
+      - ${LOCUST_DOCKER_COMPOSE_WEB_PORT}:${LOCUST_DOCKER_COMPOSE_WEB_PORT}
+    volumes:
+      - ./locustfiles:/mnt/locustfiles
+    command: -f /mnt/locustfiles/main.py --master -H ${DEFAULT_TESE_HOST}
+
+  locust-worker:
+    image: ${BASE_IMAGE_FULL}
+    volumes:
+      - ./locustfiles:/mnt/locustfiles
+    command: -f /mnt/locustfiles/main.py --worker --master-host=locust-master

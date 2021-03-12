@@ -1,0 +1,22 @@
+version: "3"
+networks:
+  default:
+    external:
+      name: app
+services: 
+  locust-dev:
+    build:
+      context: ..
+      dockerfile: ./.devcontainer/Dockerfile
+      args:
+        VARIANT: "3.9"
+        INSTALL_NODE: "false"
+    container_name: locust-dev
+    # restart: always
+    environment:
+      LOCUST_WEB_PORT: ${LOCUST_DEV_WEB_PORT}
+    ports:
+      - ${LOCUST_DEV_WEB_PORT}:${LOCUST_DEV_WEB_PORT}
+    volumes:
+      - ..:/workspace:cached
+    command: /bin/sh -c "while sleep 1000; do :; done"
