@@ -1,0 +1,6 @@
+namespace: locust-local
+bases:
+  - ../../base
+
+resources:
+  - namespace.yaml
