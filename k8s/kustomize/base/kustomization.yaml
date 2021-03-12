@@ -17,3 +17,6 @@ configMapGenerator:
       type: generated
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
+resources:
+- statefulset/locust.yaml
+- service/locust.yaml

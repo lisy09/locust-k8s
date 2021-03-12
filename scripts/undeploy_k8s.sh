@@ -58,7 +58,7 @@ for COMMAND in ${commands[@]}; do
     fi
 done
 
-echo ">> Creating k8s resources ..."
+echo ">> Deleting k8s resources ..."
 kustomize build ${KUSTOMIZE_DIR} | kubectl delete -f -
 
 echo ">> Done!"

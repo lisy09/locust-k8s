@@ -22,13 +22,22 @@ done
 set -e
 set -x
 
+# update locust main file as configmap to avoid docker image update
 cp $ROOT_DIR/locustfiles/main.py $KUSTOMIZE_BASE_CMFILES_DIR/locustfiles
 
 cd ${KUSTOMIZE_BASE_DIR}
+# reset generated base/kustomization.yaml
 cp kustomization_base.yaml kustomization.yaml
 
+# update base/kustomization.yaml with configmap auto generated from files
 for dirpath in ${KUSTOMIZE_BASE_CMFILES_DIR}/*; do
     dirname="$(basename $dirpath)"
     kustomize edit add configmap $dirname --from-file=$CMFILES_DIR/$dirname/*
 done
 
+# update base/kustomization.yaml with resources
+kustomize edit add resource configmap/*
+kustomize edit add resource deployment/*
+kustomize edit add resource statefulset/*
+kustomize edit add resource service/*
+kustomize edit add resource ingress/*
